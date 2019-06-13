@@ -321,6 +321,20 @@ export default class SnackSession {
     }
 
     // and add or update the files in the provided code
+    await this.addOrUpdateFilesAsync(files);
+
+    this._publish();
+    this._sendStateEvent();
+  };
+
+  addCodeAsync = async (files: ExpoSnackFiles): Promise<void> => {
+    await this.addOrUpdateFilesAsync(files);
+
+    this._publish();
+    this._sendStateEvent();
+  };
+
+  addOrUpdateFilesAsync = async (files: ExpoSnackFiles): Promise<void> => {
     for (const key in files) {
       if (!this.files[key] || this.files[key] !== files[key]) {
         this.files[key] = files[key];
@@ -332,9 +346,6 @@ export default class SnackSession {
         }
       }
     }
-
-    this._publish();
-    this._sendStateEvent();
   };
 
   downloadAsync = async () => {
